@@ -2,6 +2,7 @@ var _module = require('./Module');
 var keyBuilder = require('./key-builder');
 
 function injector(directory) {
+    this.subjectIdentifier = '';
     this.directory = directory;
 }
 
@@ -14,11 +15,14 @@ injector.prototype = {
         key = keyBuilder.buildKey(key, this.directory);
         require.cache[key] = new _module(value);
     },
-    get: function(key) {
-        if (/[\/.]/g.test(key)) {
-            key = require.resolve(this.directory + '/' + key);
-        }
-        return require.cache[key];
+    clearSubjectFromCache: function() {
+        delete require.cache[this.subjectIdentifier];
+    },
+    subject: function(key) {
+        var identifier = keyBuilder.buildKey(key, this.directory);
+        this.subjectIdentifier = identifier;
+        this.clearSubjectFromCache();
+        return require(identifier);
     }
 }
 

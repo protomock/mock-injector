@@ -1,5 +1,8 @@
+var someModuleWithMethodDefinition = require('./some-module-with-method-definition');
 module.exports = {
   do: function() {
-    return "something";
+    var something = someModuleWithMethodDefinition.doSomethingAwesome();
+    console.log(something);
+    return something;
   }
 }

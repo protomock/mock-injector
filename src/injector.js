@@ -1,7 +1,6 @@
 var keyBuilder = require('./key-builder');
 var mock = require('./mock');
 
-
 var MockInjector = function(directory) {
     this.directory = directory;
 
@@ -13,7 +12,14 @@ var MockInjector = function(directory) {
         var identifier = keyBuilder.buildKey(key, this.directory);
         delete require.cache[identifier];
         return require(identifier);
-    }.bind(this)
+    }.bind(this);
+
+    injector.inject = function(key, value) {
+        var identifier = keyBuilder.buildKey(key, this.directory);
+        require.cache[identifier] = {
+            exports: value
+        };
+    }.bind(this);
 
     return injector;
 }

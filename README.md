@@ -34,4 +34,6 @@ expect(moduleMock.do.calledWithExactly('some-one')).to.be.ok;
 
 `mock(filepath)` - injects the mock of the dependency for the subject.
 
+`mock.inject(filepath, object)` - injects the mock of the dependency for the subject.
+
 Check the example folder to see the implementation and test together.

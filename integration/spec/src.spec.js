@@ -2,23 +2,32 @@ var sinon = require('sinon');
 var expect = require('chai').expect;
 var mockInjector = require('../../index.js')(__dirname);
 var async = require('async');
+var express = require('express');
 
 
 describe('src', function() {
     var subject,
-        anotherMock;
+        anotherMock,
+        expressStub;
     before(function() {
         anotherMock = {
             do: sinon.stub()
         };
+        mockInjector.inject('../src/another', anotherMock);
+
         httpMock = {
             request: sinon.stub()
         };
-        mockInjector.inject('../src/another', anotherMock);
         mockInjector.inject('http', httpMock);
+
         sinon.stub(async, 'parallel');
-        subject = mockInjector.subject('../src/src.js');
         mockInjector.inject('async', async);
+
+        expressStub = sinon.stub(express.application, 'init');
+        mockInjector.inject('express', expressStub)
+
+        subject = mockInjector.subject('../src/src.js');
+
     });
 
     describe('something', function() {
@@ -26,6 +35,10 @@ describe('src', function() {
         beforeEach(function() {
             anotherMock.do.returns('something-else');
             actual = subject.something();
+        });
+
+        it('should create an express app', function() {
+            expect(expressStub.called).to.be.ok;
         });
 
         it('should call async parallel', function() {

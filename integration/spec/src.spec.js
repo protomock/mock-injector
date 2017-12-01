@@ -17,7 +17,7 @@ describe('src', function() {
         mockInjector.inject('../src/another', anotherMock);
         mockInjector.inject('http', httpMock);
         sinon.stub(async, 'parallel');
-        subject = require('../src/src.js');
+        subject = mockInjector.subject('../src/src.js');
         mockInjector.inject('async', async);
     });
 

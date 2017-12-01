@@ -1,29 +1,29 @@
-var keyBuilder = require('./key-builder');
-var mock = require('./mock');
+var keyBuilder = require("./key-builder");
+var mock = require("./mock");
 
-var MockInjector = function(directory) {
-    this.directory = directory;
+var mockInjector = function(directory) {
+  this.directory = directory;
 
-    var injector = function(key) {
-        return mock(key, directory)
-    }
+  global.mock = function(key) {
+    return new mock(key, directory);
+  };
+};
 
-    injector.subject = function(key) {
-        var identifier = keyBuilder.buildKey(key, this.directory);
-        delete require.cache[identifier];
-        return require(identifier);
-    }.bind(this);
+mockInjector.prototype.mock = global.mock;
 
-    injector.inject = function(key, value) {
-        var identifier = keyBuilder.buildKey(key, this.directory);
-        require.cache[identifier] = {
-            exports: value
-        };
-    }.bind(this);
+mockInjector.prototype.subject = function(key) {
+  var identifier = keyBuilder.buildKey(key, this.directory);
+  delete require.cache[identifier];
+  return require(identifier);
+};
 
-    return injector;
-}
+mockInjector.prototype.inject = function(key, value) {
+  var identifier = keyBuilder.buildKey(key, this.directory);
+  require.cache[identifier] = {
+    exports: value
+  };
+};
 
 module.exports = function(directory) {
-    return new MockInjector(directory)
-}
+  return new mockInjector(directory);
+};

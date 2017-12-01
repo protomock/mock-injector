@@ -1,6 +1,6 @@
 var sinon = require('sinon');
 var expect = require('chai').expect;
-var mock = require('../../index.js')(__dirname);
+var mockInjector = require('../../index.js')(__dirname);
 
 describe("another.js", function() {
     var subject,
@@ -9,8 +9,8 @@ describe("another.js", function() {
         someModuleWithMethodDefinitionMock = {
             doSomethingAwesome: sinon.stub()
         };
-        mock.inject('../src/some-module-with-method-definition', someModuleWithMethodDefinitionMock);
-        subject = mock.subject('../src/another.js');
+        mockInjector.inject('../src/some-module-with-method-definition', someModuleWithMethodDefinitionMock);
+        subject = mockInjector.subject('../src/another.js');
     });
 
     describe("do", function() {

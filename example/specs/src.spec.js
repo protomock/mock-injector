@@ -1,6 +1,6 @@
 var sinon = require('sinon');
 var expect = require('chai').expect;
-var mock = require('../../index.js')(__dirname);
+var mockInjector = require('../../index.js')(__dirname);
 
 
 describe('src', function() {
@@ -9,7 +9,7 @@ describe('src', function() {
     beforeEach(function() {
         //This spec is only mocking what we own. So async is running forrealski
         anotherMock = mock('../src/another');
-        subject = mock.subject('../src/src.js');
+        subject = mockInjector.subject('../src/src.js');
     });
 
     describe('something', function() {
@@ -17,6 +17,7 @@ describe('src', function() {
         context("when no error", function() {
             beforeEach(function() {
                 anotherMock.do
+                    .withArgs(sinon.match.func)
                     .onFirstCall()
                     .callsArgWith(0, null, {
                         some: "result"

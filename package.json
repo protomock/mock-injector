@@ -1,11 +1,18 @@
 {
   "name": "mock-injector",
+<<<<<<< a85def2ec8c6fbb87a5deb72517d705e50e344b3
   "version": "0.0.3",
+=======
+  "version": "0.1.0",
+>>>>>>> Updated mock-injector to have a simpler interface
   "description": "Used for when writing tests to inject mock modules for the implementation.",
   "main": "index.js",
   "scripts": {
-    "test": "mocha integration/spec"
+    "test": "mocha integration/specs"
   },
   "author": "Cody Hutchens",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "sinon": "^2.2.0"
+  }
 }

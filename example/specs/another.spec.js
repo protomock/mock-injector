@@ -1,12 +1,11 @@
 var sinon = require('sinon');
 var expect = require('chai').expect;
-var mockInjector = require('../../index.js')(__dirname);
-
+var mock = require('../../index.js')(__dirname);
 
 describe("another.js", function(){
   var subject
     beforeEach(function(){
-      subject = mockInjector.subject('../src/another.js');
+      subject = mock.subject('../src/another.js');
     });
 
     describe("do", function(){

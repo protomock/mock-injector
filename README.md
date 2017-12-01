@@ -99,5 +99,7 @@ Check the integration to see the implementation and test together.
 # API
 
 `mockInjector.subject(filepath)` - tells mock-injector what file is the test subject and returns it.
+
 `mockInjector.inject(key, value)` - injects the mock of the dependency for the subject.
+
 `mockInjector.get(key)` - returns the current value for that dependency.

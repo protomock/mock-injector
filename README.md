@@ -7,7 +7,7 @@ Used for when writing tests to inject mock modules for the implementation.
 Simply run `npm install mock-injector --save-dev`
 
 
-# Example Test
+# Example Spec
 
 ```javascript
 var sinon = require('sinon');
@@ -31,7 +31,7 @@ describe('src', function() {
         sinon.stub(async, 'parallel');
         mockInjector.inject('async', async);
 
-        subject = require('../src/src.js');
+        subject = mockInjector.subject('../src/src.js');
     });
     describe('something', function() {
         var actual
@@ -94,3 +94,10 @@ describe('src', function() {
 ```
 
 Check the integration to see the implementation and test together.
+
+
+# API
+
+`mockInjector.subject(filepath)` - tells mock-injector what file is the test subject and returns it.
+`mockInjector.inject(key, value)` - injects the mock of the dependency for the subject.
+`mockInjector.get(key)` - returns the current value for that dependency.

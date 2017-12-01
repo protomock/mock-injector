@@ -1,20 +1,24 @@
 var _module = require('./Module');
 
 function injector(directory) {
-  this.directory = directory;
+    this.directory = directory;
 }
 
-injector.prototype  = {
+injector.prototype = {
     inject: function(key, value) {
-        key = /[\/.]/g.test(key) ? this.directory + '/' + key : key;
-        require.cache[require.resolve(key)] = new _module(value);
+        if (/[\/.]/g.test(key)) {
+            key = require.resolve(this.directory + '/' + key);
+        }
+        require.cache[key] = new _module(value);
     },
     get: function(key) {
-        key = /[\/.]/g.test(key) ? this.directory + '/' + key : key;
-        return require.cache[require.resolve(key)];
+        if (/[\/.]/g.test(key)) {
+            key = require.resolve(this.directory + '/' + key);
+        }
+        return require.cache[key];
     }
 }
 
-module.exports = function (directory) {
-  return new injector(directory);
+module.exports = function(directory) {
+    return new injector(directory);
 };

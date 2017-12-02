@@ -1,6 +1,6 @@
 {
   "name": "mock-injector",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Used when writing tests to inject mock modules for the implementation.",
   "main": "index.js",
   "scripts": {

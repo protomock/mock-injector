@@ -16,14 +16,23 @@ module.exports = {
   do: function (one) { return this}
 }
 
+```
+
+```javascript
 //some-module.spec.js
-var mock = require('mock-injector')(__dirname);
+var mockInjector = require('mock-injector')(__dirname);
+//mocking your modules or files
 var moduleMock = mock('../src/some-module');
+
+//mocking dependencies
+var asyncMock = mock('async');
+async.waterfall.yields(null, 'some-results')
 
 mock.subject('../src/some-subject');
 
 //Uses sinon stubs for mocking exports. Whichs means you can use sinon stub api
 expect(moduleMock.do.calledWithExactly('some-one')).to.be.ok;
+expect(asyncMock.waterfall.to.be.called).to.be.ok;
 
 ```
 
@@ -32,7 +41,7 @@ expect(moduleMock.do.calledWithExactly('some-one')).to.be.ok;
 
 `mock.subject(filepath)` - tells mock-injector what file is the test subject and returns it.
 
-`mock(filepath)` - injects the mock of the dependency for the subject.
+`mock(filepath || moduleName)` - creates AND injects the mock of the dependency for the subject. Returns the mocked object.
 
 `mock.inject(filepath, object)` - injects the mock of the dependency for the subject.
 

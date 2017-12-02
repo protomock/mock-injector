@@ -1,5 +1,7 @@
 # Mock Injector
 
+[![npm](https://img.shields.io/npm/dt/mock-injector.svg)](https://www.npmjs.com/package/mock-injector)
+
 Allows you to mock a dependency and inject it into the implementation
 
 ## Setup

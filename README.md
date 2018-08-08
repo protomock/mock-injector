@@ -4,47 +4,58 @@
 
 Allows you to mock a dependency and inject it into the implementation
 
-## Setup
+## Install
 
-Simply run `npm install mock-injector --save-dev`
+`npm install mock-injector --save-dev`
 
+## How to import
+```javascript
+                                                // sets the resolution directory
+const { mock, clear } = require('mock-injector')(__dirname)
+```
 
 ## Example Spec
 
 ```javascript
 
-//some-module.js
+// some-module.js
 module.exports = {
-  do: function (one) { return this}
+  do: function (one) { return one }
 }
 
 ```
 
 ```javascript
-//some-module.spec.js
-var mockInjector = require('mock-injector')(__dirname);
-//mocking your modules or files
-var moduleMock = mock('../src/some-module');
+// some-module.spec.js
+const { mock, clear } = require('mock-injector')(__dirname);
 
-//mocking dependencies
-var asyncMock = mock('async');
+// mocking your modules or files
+// this stubs all methods in that file
+const moduleMock = mock('../src/some-module');
+
+// mocking dependencies
+// this stubs out the dependencies functions
+const asyncMock = mock('async');
 async.waterfall.yields(null, 'some-results')
 
-mock.subject('../src/some-subject');
+const subject = clear('../src/some-subject');
 
-//Uses sinon stubs for mocking exports. Whichs means you can use sinon stub api
+// Uses sinon stubs for mocking exports. Whichs means you can use sinon stub api
 expect(moduleMock.do.calledWithExactly('some-one')).to.be.ok;
 expect(asyncMock.waterfall.to.be.called).to.be.ok;
 
 ```
 
 
+
 ## API
 
-`mock.subject(filepath)` - tells mock-injector what file is the test subject and returns it.
+`clear(filepath || moduleName)` - Clears out any existing injected objects for a module. Returns the module.
 
-`mock(filepath || moduleName)` - creates AND injects the mock of the dependency for the subject. Returns the mocked object.
+`mock(filepath || moduleName)` - Creates AND injects the mock of the dependency. Returns the mocked object.
 
-`mock.inject(filepath, object)` - injects the mock of the dependency for the subject.
+`inject(filepath || moduleName, object)` - Injects the mock of the dependency for the subject.
 
+
+## Example
 Check the example folder to see the implementation and test together.
